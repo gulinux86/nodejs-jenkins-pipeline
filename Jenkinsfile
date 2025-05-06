@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/gulinux86/nodejs-jenkins-pipeline.git' // substitua pela URL do seu repositório
+                sh 'git clone git@github.com:gulinux86/nodejs-jenkins-pipeline.git .'
             }
         }
 
