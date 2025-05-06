@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE = 'meu-app-node'
         DOCKER_TAG = 'latest'
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id' // substitua pelo ID no Jenkins
-        DOCKER_REGISTRY = 'docker.io/gustpn' // substitua pelo seu namespace
+        DOCKER_REGISTRY = 'gustpn' // substitua pelo seu namespace
     }
  
 
