@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE = 'meu-app-node'
         DOCKER_TAG = 'latest'
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id' // substitua pelo ID no Jenkins
-        DOCKER_REGISTRY = 'gustpn' // substitua pelo seu namespace
+        DOCKER_REGISTRY = 'docker.io/gustpn' // substitua pelo seu namespace
     }
  
 
@@ -38,7 +38,7 @@ pipeline {
 
         stage('Build Docker') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                sh "docker build -t docker.io/gustpn/meu-app-node:latest ."
             }
         }
 
@@ -50,8 +50,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin ${DOCKER_REGISTRY}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        #docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        docker push docker.io/gustpn/meu-app-node:latest
+                        #docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
