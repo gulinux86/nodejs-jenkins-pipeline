@@ -15,10 +15,10 @@ pipeline {
                 cleanWs()
             }
         }
-            
+
         stage('Checkout') {
             steps {
-                sh 'git clone git@github.com:gulinux86/nodejs-jenkins-pipeline.git .'
+                sh 'git clone https://github.com/gulinux86/nodejs-jenkins-pipeline.git .'
             
             }
         }
