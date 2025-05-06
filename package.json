@@ -1,0 +1,13 @@
+{
+    "name": "meu-app-node",
+    "version": "1.0.0",
+    "description": "Projeto simples em Node.js com Docker",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "express": "^4.18.4"
+    }
+  }
+  
