@@ -7,11 +7,19 @@ pipeline {
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id' // substitua pelo ID no Jenkins
         DOCKER_REGISTRY = 'docker.io/seuusuario' // substitua pelo seu namespace
     }
+ 
 
     stages {
+        stage ('Limpar workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+            
         stage('Checkout') {
             steps {
                 sh 'git clone git@github.com:gulinux86/nodejs-jenkins-pipeline.git .'
+            
             }
         }
 
