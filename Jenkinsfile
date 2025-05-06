@@ -1,5 +1,5 @@
 pipeline {
-    agent {docker { image 'node:20' }}
+    agent any
 
     environment {
         DOCKER_IMAGE = 'meu-app-node'
@@ -38,7 +38,7 @@ pipeline {
 
         stage('Build Docker') {
             steps {
-                sh "/usr/bin/docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
             }
         }
 
