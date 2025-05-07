@@ -13,7 +13,7 @@ pipeline {
     }
 
     stages {
-        stage('Limpar workspace') {
+        stage('Clear workspace') {
             steps {
                 cleanWs()
             }
@@ -25,15 +25,22 @@ pipeline {
             }
         }
 
-        stage('Instalar dependências') {
+        stage('Install dependencies') {
             steps {
                 sh 'npm install'
             }
         }
 
-        stage('Testes') {
+        stage('Tests') {
             steps {
-                sh 'npm test || echo "Sem testes definidos"'
+                script {
+                    try {
+                        sh 'npm run test' 
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
             }
         }
 
@@ -46,7 +53,7 @@ pipeline {
             }
         }
 
-        // Push para HML
+        // Push to HML
         stage('Push Docker - HML') {
             when {
                 expression { return params.Escolha_o_ambiente == 'HML' }
@@ -62,7 +69,7 @@ pipeline {
             }
         }
 
-        // Push para PRD
+        // Push to PRD
         stage('Push Docker - PRD') {
             when {
                 expression { return params.Escolha_o_ambiente == 'PRD' }
@@ -78,7 +85,7 @@ pipeline {
             }
         }
 
-        // Push para TEST
+        // Push to TEST
         stage('Push Docker - TEST') {
             when {
                 expression { return params.Escolha_o_ambiente == 'TEST' }
@@ -97,13 +104,13 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finalizada.'
+            echo 'Pipeline finished.'
         }
         success {
-            echo "Pipeline concluída com sucesso! Imagem: ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
+            echo "Pipeline finished successfully! Image: ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
         }
         failure {
-            echo 'Falha na pipeline.'
+            echo 'Pipeline failed.'
         }
     }
 }
