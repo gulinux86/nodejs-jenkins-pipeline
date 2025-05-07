@@ -6,6 +6,9 @@ pipeline {
         DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
+        PRD = 'prd'
+        HML = 'hml'
+        TEST = 'test'
     }
 
     parameters {
@@ -39,7 +42,10 @@ pipeline {
 
         stage('Build Docker') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                sh """
+                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    docker images
+                """
             }
         }
 
@@ -52,9 +58,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:hml
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:hml
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${HML}
                     """
                 }
             }
@@ -69,9 +76,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:prd
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:prd
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${PRD}
                     """
                 }
             }
@@ -86,9 +94,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:test
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:test
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${TEST}
                     """
                 }
             }
@@ -100,7 +109,7 @@ pipeline {
             echo 'Pipeline finalizada.'
         }
         success {
-            echo 'Pipeline concluída com sucesso!'
+            echo "Pipeline concluída com sucesso! Imagem: ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
         }
         failure {
             echo 'Falha na pipeline.'
