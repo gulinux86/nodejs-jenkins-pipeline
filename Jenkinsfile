@@ -59,7 +59,7 @@ pipeline {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:hml
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${HML}
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${HML}
                     """
@@ -77,7 +77,7 @@ pipeline {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:prd
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${PRD}
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${PRD}
                     """
@@ -95,7 +95,7 @@ pipeline {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:test
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${TEST}
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${TEST}
                     """
