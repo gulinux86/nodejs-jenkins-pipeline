@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: unless-stopped
+    user: root  # necessário para permitir instalação de ferramentas (como Docker CLI)
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home2:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock  # permite o Jenkins usar o Docker do host
+volumes:
+  jenkins_home2:
