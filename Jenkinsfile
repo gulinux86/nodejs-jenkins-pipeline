@@ -6,9 +6,6 @@ pipeline {
         DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
-        PRD = 'prd'
-        HML = 'hml'
-        TEST = 'test'
     }
 
     parameters {
@@ -59,7 +56,7 @@ pipeline {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${HML}
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}:${HML}
                     """
                 }
@@ -76,8 +73,8 @@ pipeline {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${PRD}
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}:${PRD}
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
@@ -93,8 +90,8 @@ pipeline {
                     sh """
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${TEST}
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}:${TEST}
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
