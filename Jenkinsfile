@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'meu-app-node'
-        DOCKER_TAG = 'latest'
+        DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
     }
@@ -54,6 +54,7 @@ pipeline {
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:hml
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:hml
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
@@ -70,6 +71,7 @@ pipeline {
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:prd
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:prd
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
@@ -86,6 +88,7 @@ pipeline {
                         docker login -u "$DOCKER_USER" -p "${DOCKER_PASS}" docker.io
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:test
                         docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:test
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
