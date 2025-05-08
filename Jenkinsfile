@@ -57,7 +57,7 @@ pipeline {
                         sonar-scanner \
                             -Dsonar.projectKey=node-app \
                             -Dsonar.sources=. \
-                            -Dsonar.host.url=http://sonarqube:9000 \
+                            -Dsonar.host.url=http://172.22.0.3:9000 \
 
                     '''
                 }
