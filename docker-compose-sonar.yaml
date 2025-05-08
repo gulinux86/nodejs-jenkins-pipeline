@@ -39,4 +39,4 @@ volumes:
 
 networks:
   jenkins-sonar-network:
-    external: true
+    driver: bridge
