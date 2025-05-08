@@ -44,6 +44,22 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    withCredentials([string(credentialsId: 'squ_ca6408402d1b46105c8124bf35b5b661eeac49ea', variable: 'SONAR_TOKEN')]) {
+                        sh """
+                            sonar-scanner \
+                              -Dsonar.projectKey=node-app \
+                              -Dsonar.sources=. \
+                              -Dsonar.host.url=http://localhost:9000 \
+                              -Dsonar.login=$SONAR_TOKEN
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Build Docker') {
             steps {
                 sh """
@@ -53,7 +69,6 @@ pipeline {
             }
         }
 
-        // Push to HML
         stage('Push Docker - HML') {
             when {
                 expression { return params.Escolha_o_ambiente == 'HML' }
@@ -69,7 +84,6 @@ pipeline {
             }
         }
 
-        // Push to PRD
         stage('Push Docker - PRD') {
             when {
                 expression { return params.Escolha_o_ambiente == 'PRD' }
@@ -85,7 +99,6 @@ pipeline {
             }
         }
 
-        // Push to TEST
         stage('Push Docker - TEST') {
             when {
                 expression { return params.Escolha_o_ambiente == 'TEST' }
