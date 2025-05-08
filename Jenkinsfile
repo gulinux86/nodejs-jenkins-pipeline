@@ -50,10 +50,11 @@ pipeline {
                 withCredentials([string(credentialsId: "${SONAR_CREDENTIAL_ID}", variable: 'SONAR_TOKEN')]) {
                     sh '''
                         docker run --rm \
-                          -e SONAR_TOKEN=$SONAR_TOKEN \
-                          -v $PWD:/usr/src \
-                          sonarsource/sonar-scanner-cli \
-                          sonar-scanner \
+                        --network jenkins-sonar-network \
+                        -e SONAR_TOKEN=$SONAR_TOKEN \
+                        -v $PWD:/usr/src \
+                        sonarsource/sonar-scanner-cli \
+                        sonar-scanner \
                             -Dsonar.projectKey=node-app \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://sonarqube:9000 \
@@ -62,6 +63,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Build Docker') {
             steps {
