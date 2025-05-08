@@ -17,6 +17,8 @@ services:
       - ./sonar-project.properties:/usr/src/sonar-project.properties:ro
     depends_on:
       - db
+    networks:
+      - jenkins-sonar-network
 
   db:
     image: postgres:12
@@ -27,8 +29,14 @@ services:
       POSTGRES_DB: sonarqube
     volumes:
       - postgresql:/var/lib/postgresql/data
+    networks:
+      - jenkins-sonar-network
 
 volumes:
   sonarqube_data:
   sonarqube_extensions:
   postgresql:
+
+networks:
+  jenkins-sonar-network:
+    external: true

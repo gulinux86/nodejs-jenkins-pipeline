@@ -5,12 +5,19 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins
     restart: unless-stopped
-    user: root  # necessário para permitir instalação de ferramentas (como Docker CLI)
+    user: root  
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins_home2:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock  # permite o Jenkins usar o Docker do host
+      - /var/run/docker.sock:/var/run/docker.sock 
+    networks:
+      - jenkins-sonar-network
+
 volumes:
   jenkins_home2:
+
+networks:
+  jenkins-sonar-network:
+    external: true
