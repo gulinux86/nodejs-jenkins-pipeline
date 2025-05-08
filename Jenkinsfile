@@ -6,6 +6,7 @@ pipeline {
         DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
+        SONAR_CREDENTIAL_ID = 'squ_ca6408402d1b46105c8124bf35b5b661eeac49ea' 
     }
 
     parameters {
@@ -44,18 +45,20 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    withCredentials([string(credentialsId: 'squ_ca6408402d1b46105c8124bf35b5b661eeac49ea', variable: 'SONAR_TOKEN')]) {
-                        sh """
-                            sonar-scanner \
-                              -Dsonar.projectKey=node-app \
-                              -Dsonar.sources=. \
-                              -Dsonar.host.url=http://localhost:9000 \
-                              -Dsonar.login=$SONAR_TOKEN
-                        """
-                    }
+                withCredentials([string(credentialsId: "${SONAR_CREDENTIAL_ID}", variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        docker run --rm \
+                          -e SONAR_TOKEN=$SONAR_TOKEN \
+                          -v $PWD:/usr/src \
+                          sonarsource/sonar-scanner-cli \
+                          sonar-scanner \
+                            -Dsonar.projectKey=node-app \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.login=$SONAR_TOKEN
+                    '''
                 }
             }
         }
