@@ -1,7 +1,7 @@
     pipeline {
         agent {
         docker {
-        image 'gustpn/devops_tools:v2'
+        image 'gustpn/devops_tools:v3'
         args '-u jenkins'
         }
     }
