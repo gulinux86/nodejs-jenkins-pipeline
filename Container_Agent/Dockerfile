@@ -68,6 +68,12 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN useradd -m -s /bin/bash jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+RUN useradd -m -d /home/jenkins -s /bin/bash jenkins \
+    && mkdir -p /home/jenkins \
+    && chown -R jenkins:jenkins /home/jenkins
+
+
+
 USER jenkins
 WORKDIR /home/jenkins
 ENV PATH="/home/jenkins/.local/bin:${PATH}"
