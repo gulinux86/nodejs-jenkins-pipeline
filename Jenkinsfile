@@ -1,5 +1,10 @@
-pipeline {
-    agent any
+    pipeline {
+        agent {
+        docker {
+        image 'gustpn/devops_tools:v1'
+        args '-u jenkins'
+        }
+    }
 
     environment {
         DOCKER_IMAGE = 'meu-app-node'
