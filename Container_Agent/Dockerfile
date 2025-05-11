@@ -76,7 +76,11 @@ RUN mkdir -p /opt/sonar-scanner && \
     unzip sonar-scanner.zip -d /opt && \
     mv /opt/sonar-scanner-*/* /opt/sonar-scanner/ && \
     rm -rf sonar-scanner.zip /opt/sonar-scanner-* && \
-    ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+    ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner && \
+    echo "SonarScanner instalado em:" && \
+    which sonar-scanner && \
+    sonar-scanner --version
+
 
 # Cria usuário seguro não-root
 RUN useradd -m -s /bin/bash jenkins && \
