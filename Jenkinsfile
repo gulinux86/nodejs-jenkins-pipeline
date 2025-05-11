@@ -2,7 +2,7 @@
         agent {
         docker {
         image 'gustpn/devops_tools:v3'
-        args '-u jenkins'
+        args '-u 0:0'
         }
     }
 

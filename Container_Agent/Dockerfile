@@ -73,7 +73,6 @@ RUN useradd -m -d /home/jenkins -s /bin/bash jenkins \
     && chown -R jenkins:jenkins /home/jenkins
 
 
-
 USER jenkins
 WORKDIR /home/jenkins
 ENV PATH="/home/jenkins/.local/bin:${PATH}"
