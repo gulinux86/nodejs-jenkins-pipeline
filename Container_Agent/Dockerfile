@@ -72,6 +72,7 @@ RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-25.
 
 # Instala SonarScanner CLI
 RUN mkdir -p /opt/sonar-scanner && \
+    chmod 777 /usr/local/bin/sonar-scanner \
     curl -sL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -o sonar-scanner.zip && \
     unzip sonar-scanner.zip -d /opt && \
     mv /opt/sonar-scanner-*/* /opt/sonar-scanner/ && \
@@ -80,8 +81,7 @@ RUN mkdir -p /opt/sonar-scanner && \
     echo "SonarScanner instalado em:" && \
     which sonar-scanner && \
     sonar-scanner --version
-
-
+   
 # Cria usuário seguro não-root
 RUN useradd -m -s /bin/bash jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
