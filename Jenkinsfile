@@ -51,20 +51,15 @@
         }
 
         stage('SonarQube Scan') {
-            steps {
-                withCredentials([string(credentialsId: "${SONAR_CREDENTIAL_ID}", variable: 'SONAR_TOKEN')]) {
-                    sh '''
-                        docker run --rm \
-                        --network jenkins-sonar-network \
-                        -e SONAR_TOKEN=$SONAR_TOKEN \
-                        -v $PWD:/usr/src \
-                        sonarsource/sonar-scanner-cli \
-                        sonar-scanner \
-                            -Dsonar.projectKey=node-app \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://172.22.0.3:9000 \
-
-                    '''
+                steps {
+        withCredentials([string(credentialsId: "${SONAR_CREDENTIAL_ID}", variable: 'SONAR_TOKEN')]) {
+                sh '''
+                    sonar-scanner \
+                        -Dsonar.projectKey=node-app \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://172.22.0.3:9000 \
+                        -Dsonar.login=$SONAR_TOKEN
+                '''
                 }
             }
         }
