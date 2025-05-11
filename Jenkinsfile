@@ -1,7 +1,7 @@
     pipeline {
         agent {
         docker {
-        image 'gustpn/devops_tools:v4'
+        image 'gustpn/devops_tools:v5'
         args '-u 0:0'
         }
     }

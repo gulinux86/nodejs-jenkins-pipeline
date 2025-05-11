@@ -65,6 +65,11 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     unzip awscliv2.zip && ./aws/install && \
     rm -rf awscliv2.zip aws
 
+# Instala Docker CLI (versão atualizada)
+RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-25.0.3.tgz | tar xz && \
+    mv docker/docker /usr/bin/docker && \
+    rm -rf docker
+
 # Cria usuário seguro não-root
 RUN useradd -m -s /bin/bash jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
