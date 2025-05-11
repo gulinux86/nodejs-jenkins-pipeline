@@ -26,7 +26,8 @@ RUN apt-get update && apt-get install -y \
     bash \
     dash \
     coreutils \
-    procps\
+    procps \
+    docker.io \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instala Node.js (LTS)
