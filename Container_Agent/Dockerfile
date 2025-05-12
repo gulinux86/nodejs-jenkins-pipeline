@@ -46,6 +46,7 @@ RUN TERRAFORM_VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/te
     mv terraform /usr/local/bin/ && \
     rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
+
 # Instala Helm (latest)
 RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
@@ -70,14 +71,16 @@ RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-25.
     mv docker/docker /usr/bin/docker && \
     rm -rf docker
 
+# Instala Sonar Scanner CLI
+RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip && \
+    unzip sonar-scanner-cli-5.0.1.3006-linux.zip && \
+    mv sonar-scanner-5.0.1.3006-linux /opt/sonar-scanner && \
+    ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner && \
+    rm sonar-scanner-cli-5.0.1.3006-linux.zip
+
 # Cria usuário seguro não-root
 RUN useradd -m -s /bin/bash jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-RUN useradd -m -d /home/jenkins -s /bin/bash jenkins \
-    && mkdir -p /home/jenkins \
-    && chown -R jenkins:jenkins /home/jenkins
-
 
 USER jenkins
 WORKDIR /home/jenkins
