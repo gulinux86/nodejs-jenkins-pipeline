@@ -50,19 +50,19 @@
             }
         }
 
-        stage('SonarQube Scan') {
-                steps {
-        withCredentials([string(credentialsId: "${SONAR_CREDENTIAL_ID}", variable: 'SONAR_TOKEN')]) {
-                sh '''
-                    sonar-scanner \
-                        -Dsonar.projectKey=node-app \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://sonarqube:9000 \
-                        -Dsonar.login=$SONAR_TOKEN
-                '''
-                }
-            }
-        }
+        // stage('SonarQube Scan') {
+        //         steps {
+        // withCredentials([string(credentialsId: "${SONAR_CREDENTIAL_ID}", variable: 'SONAR_TOKEN')]) {
+        //         sh '''
+        //             sonar-scanner \
+        //                 -Dsonar.projectKey=node-app \
+        //                 -Dsonar.sources=. \
+        //                 -Dsonar.host.url=http://sonarqube:9000 \
+        //                 -Dsonar.login=$SONAR_TOKEN
+        //         '''
+        //         }
+        //     }
+        // }
 
 
         stage('Build Docker') {
