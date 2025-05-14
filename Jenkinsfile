@@ -58,8 +58,8 @@
                     sonar-scanner \
                     -Dsonar.projectKey=node-app \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=$SONAR_HOST_URL
-                '''
+                    -Dsonar.host.url=http://localhost:9000           
+               '''
             }
         }
     }
