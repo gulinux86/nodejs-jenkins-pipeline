@@ -3,6 +3,7 @@
         docker {
         image 'gustpn/devops_tools:v10'
         args '-u 0:0'
+        args '-v $HOME:/root --network jenkins-sonar-network'
         }
     }
 
@@ -57,7 +58,7 @@
                     sonar-scanner \
                         -Dsonar.projectKey=node-app \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=http://sonarqube:9000 \
+                        -Dsonar.host.url=http://172.22.0.4:9000 \
                         -Dsonar.login=$SONAR_TOKEN
                 '''
                 }
