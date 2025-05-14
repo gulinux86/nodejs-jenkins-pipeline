@@ -1,7 +1,7 @@
     pipeline {
         agent {
         docker {
-        image 'gustpn/devops_tools:v11_tools'
+        image 'gustpn/devops_tools:v11'
         args '-u 0:0'
         args '-v $HOME:/root --network jenkins-sonar-network'
         }

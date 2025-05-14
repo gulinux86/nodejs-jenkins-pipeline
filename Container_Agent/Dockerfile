@@ -39,13 +39,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
 # Instala Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# Instala Terraform (latest)
-RUN TERRAFORM_VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version) && \
-    wget -q https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    mv terraform /usr/local/bin/ && \
-    rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-
+# Instala Terraform (última versão estável)
+RUN set -eux; \
+    TERRAFORM_VERSION=$(curl -s https://releases.hashicorp.com/terraform/ | grep -oP 'terraform/\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1); \
+    echo "Instalando Terraform $TERRAFORM_VERSION"; \
+    curl -fsSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -o terraform.zip; \
+    unzip terraform.zip; \
+    mv terraform /usr/local/bin/terraform; \
+    rm terraform.zip
 
 # Instala Helm (latest)
 RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
