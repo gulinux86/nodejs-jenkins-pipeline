@@ -36,7 +36,7 @@
             steps {
                 sh '''
                     echo "===> kubectl version"
-                    kubectl version --client=true --short || echo "kubectl not found"
+                    kubectl version --client=true || echo "kubectl not found"
 
                     echo "===> ansible version"
                     ansible --version | head -n1 || echo "ansible not found"
