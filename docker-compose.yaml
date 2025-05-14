@@ -1,7 +1,26 @@
 version: '3.8'
+
 services:
+  db:
+    image: postgres:12
+    container_name: postgres-sonar
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonarqube
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonar"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jenkins-sonar-network
+
   sonarqube:
-    image: sonarqube:lts
+    image: sonarqube:9.9.4-community
+    container_name: sonarqube
     ports:
       - "9000:9000"
     environment:
@@ -17,36 +36,26 @@ services:
     networks:
       - jenkins-sonar-network
 
-  db:
-    image: postgres:12
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-      POSTGRES_DB: sonarqube
-    volumes:
-      - postgresql:/var/lib/postgresql/data
-    networks:
-      - jenkins-sonar-network
-
   jenkins:
     image: jenkins/jenkins:lts
+    container_name: jenkins
     restart: unless-stopped
-    user: root  
+    user: root
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - jenkins_home2:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock 
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - jenkins-sonar-network
 
 volumes:
-  jenkins_home2:
+  jenkins_home:
   sonarqube_data:
   sonarqube_extensions:
   postgresql:
- 
+
 networks:
   jenkins-sonar-network:
     driver: bridge
