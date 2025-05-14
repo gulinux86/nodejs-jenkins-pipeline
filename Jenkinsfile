@@ -50,9 +50,9 @@
                     echo "===> helm version"
                     helm version --short || echo "helm not found"
                 '''
-    }
-}
-}
+            }
+        }
+
 
         stage('Install dependencies') {
             steps {
