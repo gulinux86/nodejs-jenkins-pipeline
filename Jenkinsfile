@@ -1,7 +1,7 @@
     pipeline {
         agent {
         docker {
-        image 'gustpn/devops_tools:v10'
+        image 'gustpn/devops_tools:v11'
         args '-u 0:0'
         args '-v $HOME:/root --network jenkins-sonar-network'
         }
@@ -116,6 +116,27 @@
                     """
                 }
             }
+        }
+    }
+
+        stage('Tool Versions') {
+            steps {
+            sh '''
+                echo "===> kubectl version"
+                kubectl version --client=true --short || echo "kubectl not found"
+
+                echo "===> ansible version"
+                ansible --version | head -n1 || echo "ansible not found"
+
+                echo "===> terraform version"
+                terraform version || echo "terraform not found"
+
+                echo "===> aws cli version"
+                aws --version || echo "aws CLI not found"
+
+                echo "===> helm version"
+                helm version --short || echo "helm not found"
+            '''
         }
     }
 
