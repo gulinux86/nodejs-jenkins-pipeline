@@ -12,7 +12,7 @@
         DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
-        SONAR_CREDENTIAL_ID = 'squ_b8a3f802c16253fba3325c3835c39267d6abbec5' 
+        SONAR_CREDENTIAL_ID = 'squ_023bf412c3fb47858eec589377c9aba039c4b3ba' 
     }
 
     parameters {
@@ -75,7 +75,7 @@
 
         stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('Sonarqube') {
                 sh '''
                    sonar-scanner \
                     -Dsonar.projectKey=node-app \
