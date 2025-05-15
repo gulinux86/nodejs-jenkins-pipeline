@@ -12,7 +12,7 @@
         DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
-        SONAR_CREDENTIAL_ID = 'squ_023bf412c3fb47858eec589377c9aba039c4b3ba' 
+        SONAR_CREDENTIAL_ID = 'squ_eead9b322d1d6cdff3d5aecec2d92084d422c98f'  
     }
 
     parameters {

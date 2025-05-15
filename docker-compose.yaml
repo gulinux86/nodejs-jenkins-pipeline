@@ -29,7 +29,7 @@ services:
       SONARQUBE_JDBC_PASSWORD: sonar
       SONARQUBE_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
     volumes:
-      - sonarqube_data:/opt/sonarqube/data
+      - /media/gulinux86/40239E47249D173D/sonarqube_data:/media/gulinux86/40239E47249D173D
       - sonarqube_extensions:/opt/sonarqube/extensions
     depends_on:
       - db
@@ -45,7 +45,7 @@ services:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - /media/gulinux86/40239E47249D173D/jenkins_home:/media/gulinux86/40239E47249D173D
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - jenkins-sonar-network
