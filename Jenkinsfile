@@ -1,7 +1,7 @@
     pipeline {
         agent {
         docker {
-        image 'gustpn/devops_tools:v11'
+        image 'gustpn/devops_tools:v12'
         args '-u 0:0'
         args '-v $HOME:/root --network jenkins-sonar-network'
         }
@@ -12,7 +12,7 @@
         DOCKER_TAG = "${BUILD_ID}"
         REGISTRY_CREDENTIALS = 'dockerhub-credentials-id'
         DOCKER_REGISTRY = 'docker.io/gustpn'
-        SONAR_CREDENTIAL_ID = 'squ_4719b8cb6410f09d6bb571eed759107bb056b1ca' 
+        SONAR_CREDENTIAL_ID = 'squ_b8a3f802c16253fba3325c3835c39267d6abbec5' 
     }
 
     parameters {
