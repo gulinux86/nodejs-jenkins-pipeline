@@ -77,10 +77,10 @@
             steps {
                 withSonarQubeEnv('SonarQube') {
                 sh '''
-                    sonar-scanner \
+                   sonar-scanner \
                     -Dsonar.projectKey=node-app \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=http://sonarqube:9000           
+                    -X        
                '''
             }
         }
