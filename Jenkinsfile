@@ -75,7 +75,7 @@
 
         stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('SonarQube-Server') {
+                withSonarQubeEnv('SonarQube') {
                 sh '''
                     sonar-scanner \
                     -Dsonar.projectKey=node-app \
